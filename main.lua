@@ -17,6 +17,8 @@ function love.load()
         resizable = false,
         vsync = true
     })
+
+    gameState = ""
 end
 
 function love.update(dt)
@@ -48,6 +50,13 @@ function love.draw()
     push:apply("start")
 
     love.graphics.clear(0 / 255, 0 / 255, 0 / 255, 255 / 255)
+    love.graphics.setFont(pixelFontSmall)
+
+    if gameState == "start" then
+        love.graphics.printf("Press \"Enter\" to Start the Game", 0, 20, VIRTUAL_WIDTH, "center")
+    else
+        love.graphics.printf("The Game Starts...", 0, 20, VIRTUAL_WIDTH, "center")
+    end
 
     push:apply("end")
 end

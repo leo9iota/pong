@@ -35,3 +35,19 @@ function love.update(dt)
             
     end
 end
+
+function love.keypressed(key)
+    if key == "escape" then
+        love.event.quit()
+    elseif key == "enter" or key == "return" then
+        print("start game")
+    end
+end
+
+function love.draw()
+    push:apply("start")
+
+    love.graphics.clear(0 / 255, 0 / 255, 0 / 255, 255 / 255)
+
+    push:apply("end")
+end

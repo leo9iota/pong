@@ -1,4 +1,6 @@
 push = require "push"
+require "Paddle"
+require "Ball"
 
 -- constants
 WINDOW_WIDTH = 1280
@@ -32,8 +34,10 @@ function love.load()
     player2Score = 0
 
     -- initial player position
-    player1Y = 20
-    player2Y = VIRTUAL_HEIGHT - 70
+    -- player1Y = 20
+    -- player2Y = VIRTUAL_HEIGHT - 70
+    player1 = Paddle(10, 20, 10, 50)
+    player2 = Paddle(VIRTUAL_WIDTH - 20, VIRTUAL_HEIGHT - 70, 10, 50)
 
     -- initial ball position
     ballX = VIRTUAL_WIDTH / 2 - 4

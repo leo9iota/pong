@@ -28,7 +28,7 @@ function love.load()
     pixelFontSmall = love.graphics.newFont("public-pixel-font.ttf", 8)
     pixelFontLarge = love.graphics.newFont("public-pixel-font.ttf", 32)
 
-    -- set LÖVE2D"s active font to the smallFont object
+    -- set LÖVE2D's active font to the smallFont object
     love.graphics.setFont(pixelFontSmall)
 
     -- initialize window with virtual resolution
@@ -57,7 +57,7 @@ function love.load()
 end
 
 --[[
-Runs every frame, with "dt" passed in, our delta in seconds 
+Runs every frame, with "dt" (delta time) passed in, our delta in seconds 
 since the last frame, which LÖVE2D supplies us.
 --]]
 function love.update(dt)
@@ -79,7 +79,7 @@ function love.update(dt)
         player2.dy = 0
     end
 
-    -- update our ball based on its DX and DY only if we"re in play state;
+    -- update our ball based on its deltaX and deltaY only if we're in play state;
     -- scale the velocity by dt so movement is framerate-independent
     if gameState == "play" then
         ball:update(dt)
@@ -96,9 +96,9 @@ passes in the key we pressed so we can access.
 function love.keypressed(key)
     -- keys can be accessed by string name
     if key == "escape" then
-        -- function LÖVE gives us to terminate application
+        -- function LÖVE2D gives us to terminate application
         love.event.quit()
-    -- if we press enter during the start state of the game, we"ll go into play mode
+    -- if we press enter during the start state of the game, we'll go into play mode
     -- during play mode, the ball will move in a random direction
     elseif key == "enter" or key == "return" then
         if gameState == "start" then
@@ -106,7 +106,7 @@ function love.keypressed(key)
         else
             gameState = "start"
 
-            -- ball"s new reset method
+            -- ball's new reset method
             ball:reset()
         end
     end
@@ -138,11 +138,11 @@ function love.draw()
     love.graphics.print(tostring(player1Score), VIRTUAL_WIDTH / 2 - 160, VIRTUAL_HEIGHT / 5)
     love.graphics.print(tostring(player2Score), VIRTUAL_WIDTH / 2 + 132, VIRTUAL_HEIGHT / 5)
 
-    -- render paddles, now using their class"s render method
+    -- render paddles, now using their class' render method
     player1:render()
     player2:render()
 
-    -- render ball using its class"s render method
+    -- render ball using its class' render method
     ball:render()
 
     -- end rendering at virtual resolution

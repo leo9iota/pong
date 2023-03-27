@@ -10,7 +10,11 @@ VIRTUAL_HEIGHT = 360
 PADDLE_SPEED = 200
 
 function love.load()
+    -- pixel aesthetic
     love.graphics.setDefaultFilter("nearest", "nearest")
+
+    -- generate truly random number
+    math.randomseed(os.time())
 
     -- define fonts
     pixelFontSmall = love.graphics.newFont("public-pixel-font.ttf", 8)
@@ -45,21 +49,45 @@ function love.update(dt)
     -- player 1 movement
     if love.keyboard.isDown("w") then
         player1Y = math.max(0, player1Y + (-PADDLE_SPEED) * dt)
+        print("player1Y up: " .. math.floor(player1Y))
     elseif love.keyboard.isDown("s") then
         player1Y = math.min(VIRTUAL_HEIGHT - 50, player1Y + PADDLE_SPEED * dt)
+        print("player1Y down: " .. math.floor(player1Y))
     end
 
     -- player 2 movement
     if love.keyboard.isDown("up") then
         player2Y = math.max(0, player2Y + (-PADDLE_SPEED) * dt)
+        print("player2Y up: " .. math.floor(player2Y))
     elseif love.keyboard.isDown("down") then
         player2Y = math.min(VIRTUAL_HEIGHT - 50, player2Y + PADDLE_SPEED * dt)
+        print("player2Y down: " .. math.floor(player2Y))
+    end
+
+    -- ball movement
+    if gameState == "play" then
+        ballX = ballX + ballDeltaX * dt
+        ballY = ballY + ballDeltaY * dt
     end
 end
 
 function love.keypressed(key)
     if key == "escape" then
         love.event.quit()
+    elseif key == "enter" or key == "return" then
+        if gameState == "start" then
+            gameState = "play"
+        else
+            gameState = "start"
+
+            -- starting position of ball
+            ballX = VIRTUAL_WIDTH / 2 - 4
+            ballY = VIRTUAL_HEIGHT / 2 - 4
+
+            -- randomize starting velocity of ball
+            ballDeltaX = (math.random(2) == 1 and 100) or -100
+            ballDeltaY = math.random(-50, 50) * 1.5
+        end
     end
 end
 
@@ -89,7 +117,7 @@ function love.draw()
     love.graphics.rectangle("fill", VIRTUAL_WIDTH - 20, player2Y, 10, 50)
 
     -- ball
-    love.graphics.rectangle("fill", VIRTUAL_WIDTH / 2 - 4, VIRTUAL_HEIGHT / 2 - 4, 8, 8)
+    love.graphics.rectangle("fill", ballX, ballY, 8, 8)
 
     push:apply("end")
 end

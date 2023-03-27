@@ -26,10 +26,11 @@ function love.load()
 
     -- more "retro-looking" font object we can use for any text
     pixelFontSmall = love.graphics.newFont("public-pixel-font.ttf", 8)
+    pixelFontMedium = love.graphics.newFont("public-pixel-font.ttf", 16)
     pixelFontLarge = love.graphics.newFont("public-pixel-font.ttf", 32)
 
     -- set LÖVE2D's active font to the smallFont object
-    love.graphics.setFont(pixelFontSmall)
+    love.graphics.setFont(pixelFontMedium)
 
     -- initialize window with virtual resolution
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
@@ -37,6 +38,9 @@ function love.load()
         resizable = false,
         vsync = true
     })
+
+    -- set name of our game
+    love.window.setTitle("Pong")
 
     -- initial player score
     player1Score = 0
@@ -125,7 +129,7 @@ function love.draw()
     love.graphics.clear(0 / 255, 0 / 255, 0 / 255, 255 / 255)
 
     -- draw different things based on the state of the game
-    love.graphics.setFont(pixelFontSmall)
+    love.graphics.setFont(pixelFontMedium)
 
     if gameState == "start" then
         love.graphics.printf("Press \"Enter\" to Start the Game", 0, 20, VIRTUAL_WIDTH, "center")
@@ -145,6 +149,15 @@ function love.draw()
     -- render ball using its class' render method
     ball:render()
 
+    -- display FPS in game window
+    displayFPS()
+
     -- end rendering at virtual resolution
     push:apply("end")
+end
+
+function displayFPS()
+    love.graphics.setFont(pixelFontSmall)
+    love.graphics.setColor(0 / 255, 255 / 255, 0 / 255, 255)
+    love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 573, 3)
 end

@@ -1,15 +1,5 @@
---[[
-    Opponent Class: responsible for the movement of the opponent paddle.
-    Contains the 3 base functions of LÖVE 2D: load(), update(dt) and draw().
-    These function also need to be called in main.lua. The opponent is very
-    similar to the player, they both have to keep track of their own x and y
-    positions. We have a width and height, aswell as a speed variable.
-]]
 Opponent = {}
 
---[[ 
-    Initial position of the opponent paddle. Acts sort of as a "constructor".
-]]
 function Opponent:load()
     self.width = 20
     self.height = 100
@@ -18,17 +8,13 @@ function Opponent:load()
     self.yVelocity = 0
     self.speed = 500
 
-    self.timer = 0  -- Opponent decision delay
-    self.rate = 0.275 -- Rate on which the opponent can call the aquireTarget() function
+    self.timer = 0
+    self.rate = 0.275
 end
 
---[[
-    Opponent is only able to call the aquireTarget() function every half a second, defined in
-    the self.rate variable.
-]]
 function Opponent:update(dt)
     self:move(dt)
-    self.timer = self.timer + dt -- Counts upwards until it reaches the half second threshold to then call the aquireTarget() function
+    self.timer = self.timer + dt
     
     if self.timer > self.rate then
         self.timer = 0
@@ -36,16 +22,10 @@ function Opponent:update(dt)
     end
 end
 
---[[
-    Responsible for the movement speed of the opponent paddle
-]]
 function Opponent:move(dt)
     self.y = self.y + self.yVelocity * dt
 end
 
---[[
-
-]]
 function Opponent:acquireTarget()
     if Ball.y + Ball.height < self.y then
         self.yVelocity = -self.speed

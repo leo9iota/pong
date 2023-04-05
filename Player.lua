@@ -1,6 +1,3 @@
---[[
-    Player class: responsible for the movement of the player paddle.
-]]
 Player = {}
 
 function Player:load()

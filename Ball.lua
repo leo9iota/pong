@@ -1,56 +1,92 @@
-Ball = Class{}
-
-function Ball:init(x, y, width, height)
-    self.x = x
-    self.y = y
-    self.width = width
-    self.height = height
-
-    -- these variables are for keeping track of our velocity on both the
-    -- X and Y axis, since the ball can move in two dimensions
-    self.dy = math.random(2) == 1 and -100 or 100
-    self.dx = math.random(-50, 50)
-end
+--[[ 
+    Ball class: responsible for the ball behavior and movement.    
+    We create a table Ball which contains all the variables and functions for the ball.
+    We also create the 3 base function in LÖVE 2D, load(), update(dt) and draw(). We then
+    call Ball:load(), Ball:update(dt) and Ball:draw() in main.lua
+]]
+Ball = {}
 
 --[[
-Expects a paddle as an argument and returns true or false, depending on
-whether their rectangles overlap
---]]
-function Ball:collides(paddle)
-    -- first check if the left edge of either is farther to the right than the
-    -- right edge of the corner
-    if (self.x > paddle.x + paddle.width) or (paddle.x < self.x + self.width) then
-        return false
-    end
-    
-    -- then check to see if the bottom edge of either is higher than the top edge of the other
-    if (self.y > paddle.y + paddle.height) or (paddle.y > self.y + self.height) then
-        return false
-    end
-
-    -- if the above aren't true, they're overlapping
-    return true
+    The difference between the playe and the ball, is that player is controlled by input,
+    while the ball will move in a direction depending on its last collision. In order for
+    us to accomplish this we need to store the velocity of the ball. We do this by creating
+    two variables, xVelocity and yVelocity.
+]]
+function Ball:load()
+    self.x = love.graphics.getWidth() / 2 - 10  -- Initial x position for the ball
+    self.y = love.graphics.getHeight() / 2 - 10 -- Initial y position for the ball
+    self.width = 20                             -- Ball width in pixels
+    self.height = 20                            -- Ball height in pixels
+    self.speed = 500                            -- Initial speed of ball on game start
+    self.xVelocity = -self.speed                -- Ball velocity on x achsis
+    self.yVelocity = 0                          -- Ball velocity on y achsis
 end
 
---[[
-Places the ball in the middle of the screen, with an initial random velocity
-on both axes.
---]]
-function Ball:reset()
-    self.x = VIRTUAL_WIDTH / 2 - 2
-    self.y = VIRTUAL_HEIGHT / 2 - 2
-    self.dy = math.random(2) == 1 and -100 or 100
-    self.dx = math.random(-50, 50)
-end
-
---[[
-Simply applies velocity to position, scaled by deltaTime.
---]]
 function Ball:update(dt)
-    self.x = self.x + self.dx * dt
-    self.y = self.y + self.dy * dt
+    self:move(dt) -- Call move() function to move the ball
+    self:collide() --  Call collide() function to have a collision detection in each update
 end
 
-function Ball:render()
-    love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+--[[
+    This function is responsible for changing the ball's x and y position on collision.
+]]
+function Ball:collide()
+    -- isColliding function from Ball.lua (self is the ball, Player is the actual player)
+    if isColliding(self, Player) then
+        self.xVelocity = self.speed
+        -- Calculate the center of the ball and the player
+        local centerOfBall = self.y + self.height / 2
+        local centerOfPlayer = Player.y + Player.height / 2
+        local collisionPosition = centerOfBall - centerOfPlayer
+        self.yVelocity = collisionPosition * 5
+    end
+
+    -- Collision detection for the ball
+    if isColliding(self, Opponent) then
+        self.xVelocity = -self.speed
+        local centerOfBall = self.y + self.height / 2
+        local centerOfOpponent = Opponent.y + Opponent.height / 2
+        local collisionPosition = centerOfBall - centerOfOpponent
+        self.yVelocity = collisionPosition * 5
+    end
+
+    -- Restrict playing field by creating invisible boundries on the top and bottom of the screen
+    if self.y < 0 then
+        self.y = 0
+        self.yVelocity = -self.yVelocity
+    elseif self.y + self.height > love.graphics.getHeight() then
+        self.y = love.graphics.getHeight() - self.height
+        self.yVelocity = -self.yVelocity
+    end
+
+    -- Reset ball position if it passed by the player (Opponent scored a point and gets the first ball)
+    if self.x < 0 then
+        self.x = love.graphics.getWidth() / 2 - self.width / 2
+        self.y = love.graphics.getHeight() / 2 - self.height / 2
+        self.yVelocity = 0
+        self.xVelocity = self.speed
+    end
+
+    -- Reset ball position if it passed by the opponent (Player scored a point and gets the first ball)
+    if self.x + self.width > love.graphics.getWidth() then
+        self.x = love.graphics.getWidth() / 2 - self.width / 2
+        self.y = love.graphics.getHeight() / 2 - self.height / 2
+        self.yVelocity = 0
+        self.xVelocity = -self.speed
+    end
+end
+
+--[[
+    This function is responsible for updating the ball's x and y position based on the velocity.
+]]
+function Ball:move(dt)
+    self.x = self.x + self.xVelocity * dt
+    self.y = self.y + self.yVelocity * dt
+end
+
+--[[ 
+    This is one of the LÖVE 2D base function and responsible for drawing content to the window.
+]]
+function Ball:draw()
+    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 end

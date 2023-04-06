@@ -3,10 +3,18 @@ require("Ball")
 require("Opponent")
 
 function love.load()
+    smallPixelFont = love.graphics.newFont("public-pixel-font.ttf", 16)
+    mediumPixelFont = love.graphics.newFont("public-pixel-font.ttf", 32)
+    largePixelFont = love.graphics.newFont("public-pixel-font.ttf", 64)
+
+    playerScore = 0
+    opponentScore = 0
+
+    gameState = "none"
+
     Player:load()
     Ball:load()
     Opponent:load()
-    print(Player.x)
 end
 
 function love.update(dt)
@@ -15,10 +23,29 @@ function love.update(dt)
     Opponent:update(dt)
 end
 
+function love.keypressed(key)
+    if key == "escape" then
+        love.event.quit()
+    elseif key == "enter" or key == "return" then
+        if gameState == "none" then
+            gameState = "play"
+        else
+            gameState = "none"
+        end
+    end
+end
+
 function love.draw()
-    Player:draw()
-    Ball:draw()
-    Opponent:draw()
+    love.graphics.setFont(mediumPixelFont)
+
+    if gameState == "none" then
+        love.graphics.printf("Press \"Enter\" to Start the Game", 0, 50, love.graphics.getWidth(), "center")
+    else
+        love.graphics.printf("The Game Starts...", 0, 20, love.graphics.getWidth(), "center")
+        Player:draw()
+        Ball:draw()
+        Opponent:draw()
+    end
 end
 
 function isColliding(a, b)

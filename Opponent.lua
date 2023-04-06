@@ -11,8 +11,9 @@ Opponent = {}
     Initial position of the opponent paddle. Acts sort of as a "constructor".
 ]]
 function Opponent:load()
-    self.width = 20     -- Paddle width
-    self.height = 100   -- Paddle height
+    self.paddle = love.graphics.newImage("assets/paddle.png")
+    self.width = self.paddle:getWidth()
+    self.height = self.paddle:getHeight()
     self.x = love.graphics.getWidth() - self.width - 50
     self.y = love.graphics.getHeight() / 2
     self.yVelocity = 0
@@ -60,5 +61,5 @@ end
     This function is responsible for drawing the opponent paddle
 ]]
 function Opponent:draw()
-    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+    love.graphics.draw(self.paddle, self.x, self.y)
 end

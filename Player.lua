@@ -4,11 +4,12 @@
 Player = {}
 
 function Player:load()
-    self.width = 20                         -- Paddle width
-    self.height = 100                       -- Paddle height    
-    self.x = 50                             -- Initial starting position on x achsis
-    self.y = love.graphics.getHeight() / 2  -- Initial starting position on y achsis
-    self.speed = 500                        -- Speed variable
+    self.paddle = love.graphics.newImage("assets/paddle.png")
+    self.width = self.paddle:getWidth()
+    self.height = self.paddle:getHeight()
+    self.x = 50
+    self.y = love.graphics.getHeight() / 2
+    self.speed = 500
 end
 
 function Player:update(dt)
@@ -44,5 +45,5 @@ end
     This function is responsible for drawing the player paddle.
 ]]
 function Player:draw()
-    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+    love.graphics.draw(self.paddle, self.x, self.y)
 end

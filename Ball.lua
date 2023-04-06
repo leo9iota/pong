@@ -13,13 +13,14 @@ Ball = {}
     two variables, xVelocity and yVelocity.
 ]]
 function Ball:load()
-    self.x = love.graphics.getWidth() / 2 - 10  -- Initial x position for the ball
-    self.y = love.graphics.getHeight() / 2 - 10 -- Initial y position for the ball
-    self.width = 20                             -- Ball width in pixels
-    self.height = 20                            -- Ball height in pixels
-    self.speed = 500                            -- Initial speed of ball on game start
-    self.xVelocity = -self.speed                -- Ball velocity on x achsis
-    self.yVelocity = 0                          -- Ball velocity on y achsis
+    self.tennisBall = love.graphics.newImage("assets/tennis-ball.png")
+    self.width = self.tennisBall:getWidth()
+    self.height = self.tennisBall:getHeight()
+    self.x = love.graphics.getWidth() / 2 - 10
+    self.y = love.graphics.getHeight() / 2 - 10
+    self.speed = 500
+    self.xVelocity = -self.speed
+    self.yVelocity = 0
 end
 
 function Ball:update(dt)
@@ -108,5 +109,5 @@ end
     window.
 ]]
 function Ball:draw()
-    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+    love.graphics.draw(self.tennisBall, self.x, self.y)
 end

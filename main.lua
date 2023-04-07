@@ -24,6 +24,14 @@ function love.load()
     mediumPixelFont = love.graphics.newFont("public-pixel-font.ttf", 32)
     largePixelFont = love.graphics.newFont("public-pixel-font.ttf", 64)
 
+    --[[
+        Load game sounds
+    ]]
+    -- SoundEffects = {
+    --     ["paddle-hit"] = love.audio.newSource("sounds/paddle-hit.wav"),
+    --     ["score"] = love.audio.newSource("sounds/score.wav"),
+    --     ["wall-hit"] = love.audio.newSource("sounds/wall-hit.wav")
+    -- }
 
     --[[
         Track player and opponent score

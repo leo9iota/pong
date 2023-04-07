@@ -8,7 +8,7 @@ function Player:load()
     self.width = self.paddle:getWidth()
     self.height = self.paddle:getHeight()
     self.x = 50
-    self.y = love.graphics.getHeight() / 2
+    self.y = love.graphics.getHeight() / 2 - 165
     self.speed = 500
 end
 

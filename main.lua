@@ -8,6 +8,11 @@ require("Opponent")
 
 function love.load()
     --[[
+        Ensure randomness
+    ]]
+    math.randomseed(os.time())
+
+    --[[
         Add filter to get a retro feel
     ]]
     love.graphics.setDefaultFilter("nearest", "nearest")

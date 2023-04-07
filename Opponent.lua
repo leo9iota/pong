@@ -15,12 +15,17 @@ function Opponent:load()
     self.width = self.paddle:getWidth()
     self.height = self.paddle:getHeight()
     self.x = love.graphics.getWidth() - self.width - 50
-    self.y = love.graphics.getHeight() / 2
+    self.y = love.graphics.getHeight() / 2 + 65
     self.yVelocity = 0
     self.speed = 500
 
-    self.timer = 0      -- Opponent decision delay
-    self.rate = 0.275   -- Rate on which the opponent can call the aquireTarget() function
+    --[[ 
+        The "timer" variable creates a delay before the computer can call the "aquireTarget()"
+        function again, this ensures human-like delay. The "rate" is a random number between
+        0.1 and 0.5 seconds.
+    ]]
+    self.timer = 0
+    self.rate = 0.3
 end
 
 --[[
@@ -29,7 +34,11 @@ end
 ]]
 function Opponent:update(dt)
     self:move(dt)
-    self.timer = self.timer + dt -- Counts upwards until it reaches the half second threshold to then call the aquireTarget() function
+    --[[
+        Counts upwards until it reaches the threshold to then call the "aquireTarget()"
+        function
+    ]]
+    self.timer = self.timer + dt
     
     if self.timer > self.rate then
         self.timer = 0

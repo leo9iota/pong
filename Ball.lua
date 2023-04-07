@@ -43,9 +43,11 @@ function Ball:collideBoundries()
     if self.y < 0 then
         self.y = 0
         self.yVelocity = -self.yVelocity
+        SoundEffects.wallHitSound:play()
     elseif self.y + self.height > love.graphics.getHeight() then
         self.y = love.graphics.getHeight() - self.height
         self.yVelocity = -self.yVelocity
+        SoundEffects.wallHitSound:play()
     end
 end
 
@@ -65,6 +67,7 @@ function Ball:collidePlayer()
         local centerOfPlayer = Player.y + Player.height / 2
         local collisionPosition = centerOfBall - centerOfPlayer
         self.yVelocity = collisionPosition * 5
+        SoundEffects.paddleHitSound:play()
     end
 end
 
@@ -78,6 +81,7 @@ function Ball:collideOpponent()
         local centerOfOpponent = Opponent.y + Opponent.height / 2
         local collisionPosition = centerOfBall - centerOfOpponent
         self.yVelocity = collisionPosition * 5
+        SoundEffects.paddleHitSound:play()
     end
 end
 
@@ -89,6 +93,7 @@ function Ball:score()
     if self.x < 0 then
         self:resetBallPosition(1)
         Score.opponentScore = Score.opponentScore + 1
+        SoundEffects.scoreSound:play()
     end
 
     --[[
@@ -98,6 +103,7 @@ function Ball:score()
     if self.x + self.width > love.graphics.getWidth() then
         self:resetBallPosition(-1)
         Score.playerScore = Score.playerScore + 1
+        SoundEffects.scoreSound:play()
     end
 end
 

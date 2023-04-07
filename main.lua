@@ -25,13 +25,16 @@ function love.load()
     largePixelFont = love.graphics.newFont("public-pixel-font.ttf", 64)
 
     --[[
-        Load game sounds
+        Load game sounds, the game sound can be either "static", which means they are
+        preloaded into memory, or they can be "stream", which means they're streamed
+        on demand, which has the advantage of not bloating the memory with large
+        audio files.
     ]]
-    -- SoundEffects = {
-    --     ["paddle-hit"] = love.audio.newSource("sounds/paddle-hit.wav"),
-    --     ["score"] = love.audio.newSource("sounds/score.wav"),
-    --     ["wall-hit"] = love.audio.newSource("sounds/wall-hit.wav")
-    -- }
+    SoundEffects = {
+        paddleHitSound = love.audio.newSource("sounds/paddle-hit.wav", "static"),
+        scoreSound = love.audio.newSource("sounds/score.wav", "static"),
+        wallHitSound = love.audio.newSource("sounds/wall-hit.wav", "static")
+    }
 
     --[[
         Track player and opponent score

@@ -5,6 +5,7 @@
 require("Player")
 require("Ball")
 require("Opponent")
+require("Background")
 
 function love.load()
     --[[
@@ -27,12 +28,14 @@ function love.load()
     Player:load()
     Ball:load()
     Opponent:load()
+    Background:load()
 end
 
 function love.update(dt)
     Player:update(dt)
     Ball:update(dt)
     Opponent:update(dt)
+    Background:update(dt)
 end
 
 --[[
@@ -63,9 +66,14 @@ function love.draw()
     if gameState == "none" then
         love.graphics.printf("Press \"Enter\" to Start the Game", 0, 50, love.graphics.getWidth(), "center")
     else
-        love.graphics.printf("The Game Starts...", 0, 20, love.graphics.getWidth(), "center")
+        love.graphics.printf("The Game Starts...", 0, 50, love.graphics.getWidth(), "center")
     end
 
+    --[[
+        The "Background:draw()" function has to be called before everything else, because
+        if not the background would be infront of the sprites.
+    ]]
+    Background:draw()
     Player:draw()
     Ball:draw()
     Opponent:draw()

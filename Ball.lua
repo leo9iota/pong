@@ -88,6 +88,7 @@ function Ball:score()
     ]]
     if self.x < 0 then
         self:resetBallPosition(1)
+        Score.opponentScore = Score.opponentScore + 1
     end
 
     --[[
@@ -96,6 +97,7 @@ function Ball:score()
     ]]
     if self.x + self.width > love.graphics.getWidth() then
         self:resetBallPosition(-1)
+        Score.playerScore = Score.playerScore + 1
     end
 end
 

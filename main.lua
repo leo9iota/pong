@@ -24,8 +24,15 @@ function love.load()
     mediumPixelFont = love.graphics.newFont("public-pixel-font.ttf", 32)
     largePixelFont = love.graphics.newFont("public-pixel-font.ttf", 64)
 
-    playerScore = 0     -- Initial score of the player
-    opponentScore = 0   -- Initial score of the opponent (computer)
+
+    --[[
+        Track player and opponent score
+    ]]
+    Score = {
+        playerScore = 0,   -- Initial score of the player
+        opponentScore = 0  -- Initial score of the opponent (computer)
+    }
+
 
     gameState = "none"
 
@@ -66,6 +73,12 @@ function love.draw()
         Load medium font
     ]]
     love.graphics.setFont(mediumPixelFont)
+
+    --[[
+        Print player and opponent score
+    ]]
+    love.graphics.print("Player: " .. Score.playerScore, 40, 655)
+    love.graphics.print("Computer: " .. Score.opponentScore, 850, 655)
 
     --[[
         In this conditional statement we render text based on the game state.

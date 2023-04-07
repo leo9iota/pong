@@ -5,13 +5,17 @@
 require("Player")
 require("Ball")
 require("Opponent")
-require("Background")
 
 function love.load()
     --[[
         Add filter to get a retro feel
     ]]
     love.graphics.setDefaultFilter("nearest", "nearest")
+    
+    --[[
+        Load background
+    ]]
+    tennisCourt = love.graphics.newImage("assets/tennis-court.png")
 
     --[[
         Load pixel fonts
@@ -28,14 +32,12 @@ function love.load()
     Player:load()
     Ball:load()
     Opponent:load()
-    Background:load()
 end
 
 function love.update(dt)
     Player:update(dt)
     Ball:update(dt)
     Opponent:update(dt)
-    Background:update(dt)
 end
 
 --[[
@@ -56,6 +58,11 @@ end
 
 function love.draw()
     --[[
+        Draw background
+    ]]
+    love.graphics.draw(tennisCourt, 0, 0)
+
+    --[[
         Load medium font
     ]]
     love.graphics.setFont(mediumPixelFont)
@@ -64,16 +71,15 @@ function love.draw()
         In this conditional statement we render text based on the game state.
     ]]
     if gameState == "none" then
-        love.graphics.printf("Press \"Enter\" to Start the Game", 0, 50, love.graphics.getWidth(), "center")
+        love.graphics.printf("Press \"Enter\" to Start the Game", 0, 30, love.graphics.getWidth(), "center")
     else
-        love.graphics.printf("The Game Starts...", 0, 50, love.graphics.getWidth(), "center")
+        love.graphics.printf("The Game Starts...", 0, 30, love.graphics.getWidth(), "center")
     end
 
     --[[
         The "Background:draw()" function has to be called before everything else, because
         if not the background would be infront of the sprites.
     ]]
-    Background:draw()
     Player:draw()
     Ball:draw()
     Opponent:draw()

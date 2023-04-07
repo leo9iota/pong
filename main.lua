@@ -89,13 +89,19 @@ function love.draw()
         love.graphics.printf("The Game Starts...", 0, 30, love.graphics.getWidth(), "center")
     end
 
-    --[[
-        The "Background:draw()" function has to be called before everything else, because
-        if not the background would be infront of the sprites.
-    ]]
+    drawScore()
     Player:draw()
     Ball:draw()
     Opponent:draw()
+end
+
+--[[
+    This function is responsible for displaying the score of the player and opponent.
+]]
+function drawScore()
+    love.graphics.setFont(mediumPixelFont)
+    love.graphics.print("Player: " .. Score.playerScore, 40, 655)
+    love.graphics.print("Computer: " .. Score.opponentScore, 850, 655)
 end
 
 --[[

@@ -28,10 +28,28 @@ function Ball:update(dt)
     self:collide()  -- Call collide() function to have a collision detection in each update
 end
 
---[[
-    This function is responsible for changing the ball's x and y position on collision.
-]]
 function Ball:collide()
+    self:collideBoundries()
+    self:collidePlayer()
+    self:collideOpponent()
+    self:score()
+end
+
+function Ball:collideBoundries()
+    --[[
+        Restrict playing field by creating invisible boundries on the top and bottom of
+        the screen.
+    ]]
+    if self.y < 0 then
+        self.y = 0
+        self.yVelocity = -self.yVelocity
+    elseif self.y + self.height > love.graphics.getHeight() then
+        self.y = love.graphics.getHeight() - self.height
+        self.yVelocity = -self.yVelocity
+    end
+end
+
+function Ball:collidePlayer()
     --[[
         The "isColliding()" function comes from the "main.lua" file and is responsible for
         checking if the ball collides with the paddles. The collision method that is being
@@ -48,7 +66,9 @@ function Ball:collide()
         local collisionPosition = centerOfBall - centerOfPlayer
         self.yVelocity = collisionPosition * 5
     end
+end
 
+function Ball:collideOpponent()
     --[[
         This is the collision detection for the opponent (computer).
     ]]
@@ -59,28 +79,15 @@ function Ball:collide()
         local collisionPosition = centerOfBall - centerOfOpponent
         self.yVelocity = collisionPosition * 5
     end
+end
 
-    --[[
-        Restrict playing field by creating invisible boundries on the top and bottom of
-        the screen.
-    ]]
-    if self.y < 0 then
-        self.y = 0
-        self.yVelocity = -self.yVelocity
-    elseif self.y + self.height > love.graphics.getHeight() then
-        self.y = love.graphics.getHeight() - self.height
-        self.yVelocity = -self.yVelocity
-    end
-
+function Ball:score()
     --[[
         Reset ball position if it passed by the player.
         (Opponent scored a point and gets the first ball)
     ]]
     if self.x < 0 then
-        self.x = love.graphics.getWidth() / 2 - self.width / 2
-        self.y = love.graphics.getHeight() / 2 - self.height / 2
-        self.yVelocity = 0
-        self.xVelocity = self.speed
+        self:resetBallPosition(1)
     end
 
     --[[
@@ -88,11 +95,22 @@ function Ball:collide()
         (Player scored a point and gets the first ball)
     ]]
     if self.x + self.width > love.graphics.getWidth() then
-        self.x = love.graphics.getWidth() / 2 - self.width / 2
-        self.y = love.graphics.getHeight() / 2 - self.height / 2
-        self.yVelocity = 0
-        self.xVelocity = -self.speed
+        self:resetBallPosition(-1)
     end
+end
+
+--[[
+    This function is responsible for resetting the balls position back to its starting
+    position. The "trajectory" parameter determines in which direction the ball will move
+    based on a value which can be either positive or negative. If the value is positive,
+    the ball will move towards the opponent (computer), if it's negative, it will move
+    towards the player.
+]]
+function Ball:resetBallPosition(trajectory)
+    self.x = love.graphics.getWidth() / 2 - self.width / 2
+    self.y = love.graphics.getHeight() / 2 - self.height / 2
+    self.yVelocity = 0
+    self.xVelocity = self.speed * trajectory
 end
 
 --[[

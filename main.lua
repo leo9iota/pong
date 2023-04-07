@@ -8,6 +8,11 @@ require("Opponent")
 
 function love.load()
     --[[
+        Add filter to get a retro feel
+    ]]
+    love.graphics.setDefaultFilter("nearest", "nearest")
+
+    --[[
         Load pixel fonts
     ]]
     smallPixelFont = love.graphics.newFont("public-pixel-font.ttf", 16)
@@ -47,6 +52,9 @@ function love.keypressed(key)
 end
 
 function love.draw()
+    --[[
+        Load medium font
+    ]]
     love.graphics.setFont(mediumPixelFont)
 
     --[[

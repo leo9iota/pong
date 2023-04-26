@@ -19,6 +19,6 @@ git clone https://github.com/leo9iota/pong.git
 
 3. Drag the folder onto the LÖVE 2D shortcut
 
-## Progress
+## 📈 Progress
 
 ![Pong Version 1](images/pong-version-1.png)

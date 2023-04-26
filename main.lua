@@ -49,7 +49,6 @@ function love.load()
         opponentScore = 0  -- Initial score of the opponent (computer)
     }
 
-
     gameState = "none"
 
     Player:load()
@@ -58,9 +57,11 @@ function love.load()
 end
 
 function love.update(dt)
-    Player:update(dt)
-    Ball:update(dt)
-    Opponent:update(dt)
+    if gameState == "play" then
+        Player:update(dt)
+        Ball:update(dt)
+        Opponent:update(dt)
+    end
 end
 
 --[[

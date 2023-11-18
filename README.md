@@ -1,6 +1,6 @@
 # 🏓 Pong
 
-Pong was originally created by Atari in 1972. The game features two paddles, one controlled by the player and the other by the computer. The goal is to get the ball past the opponent's paddle to score. The first to score 10 points wins.
+Pong was originally created by [Atari](https://atari.com/collections/pong-collection) in 1972. The game features two paddles, one controlled by the player and the other by the computer. The goal is to get the ball past the opponent's paddle to score. The first to score 10 points wins.
 
 ## 🛠️ Tech Stack
 <div>
@@ -10,7 +10,7 @@ Pong was originally created by Atari in 1972. The game features two paddles, one
 
 ## ▶️ How To Play
 
-1. Download the [LOVE2D](https://love2d.org/) and set the environment variable.
+1. Download the [LOVE2D](https://love2d.org/) framework and set the environment variable.
 2. Clone the repository and change to the root directory of the project.
 
 ```sh
